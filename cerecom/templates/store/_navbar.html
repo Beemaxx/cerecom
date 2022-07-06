@@ -1,0 +1,62 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="" class="logo1-img" > 
+          <img style="height:50px"  src='/media/covers/mzlogo.png'> 
+        </a> 
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-3">
+             
+              <li class="nav-item dropdown mx-3">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-expanded="false">All Products</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="">All</a>
+                  {% for c in product_categories %}
+                  <li><a class="dropdown-item" href=""> {{ c.name|title }}</a>
+                  {% endfor %}
+                </ul>
+              </li>           
+              {% if user.is_authenticated %}
+                <li class="nav-item ">
+                  <a class="nav-link" href="{% url 'store:all_products' %}">Home</a>
+                </li>
+                <li class="nav-item mx-3">
+                  <a class="nav-link" href="">Cart</a>
+                </li>
+                <li class="nav-item mx-3">
+                  <a class="nav-link" href="">Log Out</a>
+                </li>
+              {% else %}
+                <li class="nav-item dropdown mx-3">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Log In</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="">Log In</a>
+                    <li><a class="dropdown-item" href="">Sign Up</a>
+                  </ul>
+                </li>
+              {% endif %}
+              <li class="nav-item mx-3">
+                <a class="nav-link" href="">About</a>
+              </li>
+            </ul>
+            <form class="d-flex ml-3">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            </div>
+            <a href="https://appsource.microsoft.com/en-us/marketplace/partner-dir/97f42f55-f1db-4804-b1eb-08db083efd4f/overview" class="float-sm-right top ms-3" > 
+                <img style="height:40px"  src='/media/covers/mslogo.png' > 
+            </a> 
+        </div>
+      </div>
+    </nav>
+  </div>
+  
+  
+  
+  
+  
+  

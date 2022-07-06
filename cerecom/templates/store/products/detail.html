@@ -1,0 +1,31 @@
+{% extends "../base.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<main class="container">
+  
+  
+    <!-- Right Column -->
+    <div class="right-column">
+   
+      <!-- Product Description -->
+      <div class="product-description">
+        <span>{{ product.category_id.name }}</span>
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.desc }}</p>
+      </div>
+
+    <!-- Left Column / Headphones Image -->
+       <div class="left-column">
+        <img data-image="black" src= "{{ product.image.url }}" alt="">
+    </div>
+        
+      <!-- Product Pricing -->
+      <div class="product-price">
+        <span>{{ product.price }} VND</span>
+        <a href="#" class="cart-btn">Add to cart</a>
+      </div>
+    </div>
+  </main>
+    
+{% endblock %}

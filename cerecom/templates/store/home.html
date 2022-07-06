@@ -1,0 +1,61 @@
+{% extends "./base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <main>
+        <section class="py-5 text-center container">
+          <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+              <h1 class="fw-light">Japanese Ceramic Pottery</h1>
+              <p class="lead text-muted">a True Timeless Beauty.</p>
+              <p>
+                <a href="#" class="btn btn-primary my-2">Register Now</a>
+                <a href="#" class="btn btn-secondary my-2">Browse As Guest</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div>
+            <div class="album py-5 bg-light">
+                <div class="container">
+                
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        {% for product in products %}    
+                                <div class="row">
+                                    <div class="card shadow-sm">
+
+                                        <div class="card-image">
+
+                                            <div class = "p-2 col-md-4 px-0">
+                                                <img class="img-thumbnail rounded mx-auto d-block" alt="Responsive Image" src="{{ product.image.url }}">
+                                            </div>                                          
+                                        </div>
+
+                                        <div class="card-body">
+                                            <p class="card-text">{{ product.name }}</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                                            <a href="{{ product.get_absolute_url }}">View</a>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                                            <a href="">Edit</a>
+                                                        </button>
+                                                    </div>
+                                                    <small class="text-muted">{{ product.price }} VND</small>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+              
+      
+      </main>
+      
+{% endblock %}

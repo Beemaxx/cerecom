@@ -17,15 +17,19 @@ class TimeStampedModel(models.Model):
     
 
 class Product_Inventory(TimeStampedModel):
+    vendor = models.CharField(max_length=255, default="")
     quantity = models.PositiveIntegerField(default=1)
     
     class Meta:
-        verbose_name_plural = 'discounts'
-
+        verbose_name_plural = 'inventory'
+        
+    def __str__(self):
+        return self.vendor 
+    
 class Product_Discount(TimeStampedModel):
     name = models.CharField(max_length=255)
     desc = models.TextField(blank=True)
-    discount_percent = models.DecimalField(max_digits = 3, decimal_places=2)
+    discount_percent = models.FloatField(default=0)
     active = models.BooleanField(default=False)
         
     class Meta:
@@ -56,7 +60,7 @@ class Product(TimeStampedModel):
     category_id = models.ForeignKey(Product_Category, related_name='product_category', on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, related_name='product_creator', on_delete=models.CASCADE)
     inventory_id = models.ForeignKey(Product_Inventory, related_name='product_inventory', on_delete=models.CASCADE)
-    discount_id = models.ForeignKey(Product_Discount, related_name='product_discount', on_delete=models.CASCADE)
+    discount_id = models.ForeignKey(Product_Discount, related_name='product_discount', on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique = True)
     desc = models.TextField(blank=True)
@@ -72,3 +76,10 @@ class Product(TimeStampedModel):
         
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        kwargs = {
+            'slug' : self.slug,
+        }
+        return reverse( 'store:product_detail', kwargs = kwargs)
+    
