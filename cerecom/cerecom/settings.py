@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_^6wn+yeyc=(_cw5%nka8+b_++&9lj0p-+ka$6fa45$#6c)1sb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'store',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'store.views.all_categories'
+                'store.context_processors.all_categories'
             ],
         },
     },
@@ -119,7 +120,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR, 'static/')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

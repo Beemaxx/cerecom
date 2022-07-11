@@ -1,62 +1,87 @@
-<div class="container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a href="" class="logo1-img" > 
-          <img style="height:50px"  src='/media/covers/mzlogo.png'> 
-        </a> 
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-3">
-             
-              <li class="nav-item dropdown mx-3">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-expanded="false">All Products</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="">All</a>
-                  {% for c in product_categories %}
-                  <li><a class="dropdown-item" href=""> {{ c.name|title }}</a>
-                  {% endfor %}
-                </ul>
-              </li>           
-              {% if user.is_authenticated %}
-                <li class="nav-item ">
-                  <a class="nav-link" href="{% url 'store:all_products' %}">Home</a>
-                </li>
-                <li class="nav-item mx-3">
-                  <a class="nav-link" href="">Cart</a>
-                </li>
-                <li class="nav-item mx-3">
-                  <a class="nav-link" href="">Log Out</a>
-                </li>
-              {% else %}
-                <li class="nav-item dropdown mx-3">
-                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Log In</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="">Log In</a>
-                    <li><a class="dropdown-item" href="">Sign Up</a>
-                  </ul>
-                </li>
-              {% endif %}
-              <li class="nav-item mx-3">
-                <a class="nav-link" href="">About</a>
-              </li>
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+        aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a href="{% url 'store:all_products' %}" class="logo1-img">
+        <img style="height:50px" src='/media/covers/tca.jpeg'>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-3">
+          {% comment %} Home Button {% endcomment %}
+          <li class="nav-item">
+            <a type="button" role="button" class="btn btn-outline-primary mx-3" href="{% url 'store:all_products' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                <path fill-rule="evenodd"
+                  d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+              </svg>
+              <div class="d-inline-flex">
+                Home
+              </div>
+            </a>
+          </li>
+          <li class="nav-item dropdown mx-3">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button"
+              aria-expanded="false">All Products</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ c.get_absolute_url }}">All</a>
+                {% for c in product_categories %}
+              <li><a class="dropdown-item" href="{{ c.get_absolute_url }}"> {{ c.name|title }}</a>
+                {% endfor %}
             </ul>
-            <form class="d-flex ml-3">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            </div>
-            <a href="https://appsource.microsoft.com/en-us/marketplace/partner-dir/97f42f55-f1db-4804-b1eb-08db083efd4f/overview" class="float-sm-right top ms-3" > 
-                <img style="height:40px"  src='/media/covers/mslogo.png' > 
-            </a> 
-        </div>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="">Log Out</a>
+          </li>
+          {% else %}
+          <li class="nav-item dropdown mx-3">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+              aria-expanded="false">Log In</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="">Log In</a>
+              <li><a class="dropdown-item" href="">Sign Up</a>
+            </ul>
+          </li>
+          {% endif %}
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="">About</a>
+          </li>
+        </ul>
+
+
+        <form class="d-flex ml-3">
+
+          {% comment %} Search Icon {% endcomment %}
+          <a type="button submit" role="button" class="btn btn-outline-danger mx-1" href="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+          </a>
+
+          {% comment %} Search bar {% endcomment %}
+          <input class="form-control mx-1" type="search" placeholder="Search" aria-label="Search">
+        </form>
+        {% if user.is_authenticated %}
+        {% comment %} Cart icon {% endcomment %}
+        <a type="button" role="button" class="btn btn-outline-success mx-1" href="{% url 'cart:cart_summary' %}">
+          <div class="d-inline-flex">1</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3"
+            viewBox="0 0 16 16">
+            <path
+              d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+          </svg>
+        </a>
+        {% endif %}
       </div>
-    </nav>
-  </div>
-  
-  
-  
-  
-  
-  
+    </div>
+</div>
+</nav>
+</div>

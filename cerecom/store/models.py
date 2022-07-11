@@ -6,6 +6,10 @@ from django.forms import BooleanField
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return super(ProductManager, self).get_queryset().filter(in_stock=True)
+
 # Create your models here.
 class TimeStampedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -67,8 +71,10 @@ class Product(TimeStampedModel):
     SKU = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=0)
     origin = models.CharField(max_length=255, default='Japan')
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/', default='images/default.jpeg')
     in_stock = models.BooleanField(default=True)
+    objects = models.Manager()
+    products = ProductManager()
     
     class Meta: 
         verbose_name_plural = 'Products'
