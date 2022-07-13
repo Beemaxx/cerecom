@@ -69,7 +69,7 @@ class Product(TimeStampedModel):
     slug = models.SlugField(max_length=255, unique = True)
     desc = models.TextField(blank=True)
     SKU = models.PositiveIntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=0)
+    price = models.IntegerField(max_length=10)
     origin = models.CharField(max_length=255, default='Japan')
     image = models.ImageField(upload_to='images/', default='images/default.jpeg')
     in_stock = models.BooleanField(default=True)

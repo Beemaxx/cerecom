@@ -3,26 +3,62 @@
 {% load humanize %}
 {% block content %}
 
-<div class="container">
+<div class="container my-3">
   <div class="row justify-content-md-center">
     <div class="row">
-      <p><h2>{{ product.name }}</h2></p>
-    </div>
-    <div class="container">
-      <duv class="row">
-        <div class="col">
-          <img src= "{{ product.image.url }}" alt="">
-        </div>
-        <div class="col">
-          <p>  Category: <a href = "{{ product.category_id.get_absolute_url}}"> {{ product.category_id.name }} </a>
-          <p>Description</p>
-          <p>{{ product.desc }}</p>
-          <p>Price: {{ product.price }}</p>
-          <p><button class="btn btn-outline-secondary" type="button">Add to Cart</button></p>
-        </div>
+      <div>
+        <h2>{{ product.name }}</h2>
       </div>
     </div>
-</div>
+    <div class="col my-3">
+      <duv class="row">
+        <div class="col">
 
-    
+          <img src="{{ product.image.url }}" class="img-fluid" style="height:300px;" alt="">
+
+        </div>
+        <div class="col">
+          <p> Category: <a href="{{ product.category_id.get_absolute_url}}"> {{ product.category_id.name }} </a>
+            <p>Description:</p>
+            <p>{{ product.desc }}</p>
+            <p>Price: {{ product.price }} VND</p>
+            <div class="my-3">
+              <label for="select">Quantity</label>
+              <select id="select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              <button id="add-button" value="{{product.id}}" class="btn btn-outline-secondary mx-3" type="button">Add to
+                Cart</button>
+            </div>
+
+        </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).on('click', '#add-button', function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "cart:cart_add" %}',
+      data: {
+        productid: $('#add-button').val(),
+        productqty: $('#select option:selected').text(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: 'post',
+      },
+
+      success: function (json) {
+        console.log(json)
+        document.getElementById("cart_quanty").innerHTML = json.qty
+      },
+      error: function (xhr, errmsg, err) {}
+    })
+  })
+</script>
+
+
 {% endblock %}

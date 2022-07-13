@@ -58,7 +58,7 @@
         <form class="d-flex ml-3">
 
           {% comment %} Search Icon {% endcomment %}
-          <a type="button submit" role="button" class="btn btn-outline-danger mx-1" href="">
+          <a type="button submit" role="button" class="btn btn-outline-primary mx-1" href="">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
               viewBox="0 0 16 16">
               <path
@@ -71,8 +71,21 @@
         </form>
         {% if user.is_authenticated %}
         {% comment %} Cart icon {% endcomment %}
-        <a type="button" role="button" class="btn btn-outline-success mx-1" href="{% url 'cart:cart_summary' %}">
-          <div class="d-inline-flex">1</div>
+        <a type="button" role="button" class="btn btn-outline-primary mx-1" href="{% url 'cart:cart_summary' %}">
+
+          {% with total_qty=cart|length %}
+          <div id="cart_quanty" class="d-inline-flex">
+
+            {% if total_qty > 0 %}
+              {{ total_qty }}
+            {% else %}
+              0
+            {% endif %}
+          </div>
+
+          {% endwith %}
+
+          <div id="cart_quanty" class="d-inline-flex"></div>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3"
             viewBox="0 0 16 16">
             <path
