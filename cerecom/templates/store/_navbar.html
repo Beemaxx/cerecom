@@ -29,7 +29,7 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button"
               aria-expanded="false">All Products</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ c.get_absolute_url }}">All</a>
+              <li><a class="dropdown-item" href="{% url 'store:all_products' %}" >All</a>
                 {% for c in product_categories %}
               <li><a class="dropdown-item" href="{{ c.get_absolute_url }}"> {{ c.name|title }}</a>
                 {% endfor %}
@@ -95,6 +95,7 @@
         {% endif %}
       </div>
     </div>
+    
 </div>
 </nav>
 </div>

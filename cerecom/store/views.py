@@ -14,6 +14,11 @@ def all_products(request):
     
     return render(request, 'store/home.html', { 'products': products })
 
+def new_all_products(request):
+    
+    products = Product.products.all() #changes to query only product which is active. 
+    
+    return render(request, 'store/newhome.html', { 'products': products })
 
 def product_detail(request, slug):
     

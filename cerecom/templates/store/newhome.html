@@ -1,0 +1,51 @@
+{% extends "./base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<main>
+
+    <body>
+        <section class="menu">
+            <!-- title -->
+            <div class="title">
+                <h2>our menu</h2>
+                <div class="underline"></div>
+            </div>
+            <!-- filter buttons -->
+            <div class="btn-container"><button class="filter-btn" type="button" data-id="all">
+                    all
+                </button><button class="filter-btn" type="button" data-id="breakfast">
+                    breakfast
+                </button><button class="filter-btn" type="button" data-id="lunch">
+                    lunch
+                </button><button class="filter-btn" type="button" data-id="shakes">
+                    shakes
+                </button><button class="filter-btn" type="button" data-id="dinner">
+                    dinner
+                </button></div>
+            <!-- menu items -->
+            <div class="section-center">
+                <!-- single item -->
+                {% for product in products %}
+                <article class="menu-item">
+                    <img src="{{ product.image.url }}" alt="menu item" class="photo image-thumbnail" style="width:auto; height:200"/>
+                    <div class="item-info">
+                        <header>
+                            <h4>{{ product.name }}</h4>
+                            <h4 class="price">{{ product.price }}</h4>
+                        </header>
+                        <p class="item-text">
+                            {{ product.desc }}
+                        </p>
+                    </div>
+                </article>
+                <!-- end of single item -->
+                {% endfor %}
+            </div>
+              
+                <!-- javascript -->
+                <script src="../static/js/app.js"></script>
+    </body>
+</main>
+{% endblock %}

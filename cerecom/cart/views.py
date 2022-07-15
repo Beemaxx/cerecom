@@ -1,4 +1,6 @@
+from cgitb import reset
 from math import prod
+from urllib import response
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from .cart import Cart
@@ -11,14 +13,17 @@ from django.http import JsonResponse
 def cart_summary(request):
     
     template_name = "store/cart/summary.html"
-        
-    return render(request, template_name)
+    
+    cart = Cart(request)
+    context = { "cart_items" : cart }
+    
+    return render(request,template_name, context )
 
 def cart_add(request):
     
     cart = Cart(request)
     
-    if request.POST.get('action') == 'post':
+    if request.POST.get('action') == 'add':
         product_id = int(request.POST.get('productid'))
         product_quantity = int(request.POST.get('productqty'))
         product = get_object_or_404(Product, id = product_id)
@@ -30,4 +35,44 @@ def cart_add(request):
         response = JsonResponse({'qty': cartqty})
         
         return response
+    
+def cart_delete(request):
+    
+    cart = Cart(request)
+    
+    if request.POST.get('action') == 'delete':
 
+        product_id = int(request.POST.get('productid'))
+        cart.delete(product = product_id)
+        response = JsonResponse({'Success': True})
+        
+        return response
+        
+        
+def cart_item_increase(request):
+    
+    cart = Cart(request)
+    if request.POST.get('action') == 'item_increase':
+        
+            product_id = int(request.POST.get('productid'))
+            product_quantity = int(request.POST.get('productqty'))
+
+            cart.item_increase(product = product_id, qty=product_quantity)
+            response = JsonResponse({'Success': True})
+    
+    return response
+
+
+        
+def cart_item_decrease(request):
+
+    cart = Cart(request)
+    if request.POST.get('action') == 'item_decrease':
+    
+        product_id = int(request.POST.get('productid'))
+        product_quantity = int(request.POST.get('productqty'))
+
+        cart.item_decrease(product = product_id, qty=product_quantity)
+        response = JsonResponse({'Success': True})
+    
+    return response

@@ -4,8 +4,8 @@
 {% block title %}Home Page{% endblock %}
 {% block content %}
 <main>
-    <section class="py-3 text-center container">
-        <div class="row py-lg-5">
+    <section class="py-3 text-center container my-0">
+        <div class="row py-lg-5 my-1">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Japanese Ceramic Pottery</h1>
                 <p class="lead text-muted">a True Timeless Beauty.</p>
@@ -43,8 +43,8 @@
                                                 href="{{ product.get_absolute_url }}">View</a>
                                         </button>
 
-                                        <button id="add-button" value="{{product.id}}"
-                                            class="btn btn-outline-secondary mx-1" type="button">
+                                        <button id="add-button" data-index="{{ product.id }}"
+                                            class="add-button btn btn-outline-secondary mx-1" type="button">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
                                                 <path
@@ -52,7 +52,7 @@
                                                 <path
                                                     d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                                             </svg>
-                                        </button>
+                                        </button> 
 
                                     </div>
                                     <label class="btn btn-outline-primary">{{ product.price }} VND</label>
@@ -67,16 +67,16 @@
     </div>
 </main>
 <script>
-    $(document).on('click', '#add-button', function (e) {
+    $(document).on('click', '.add-button', function (e) {
       e.preventDefault();
       $.ajax({
         type: 'POST',
         url: '{% url "cart:cart_add" %}',
         data: {
-          productid: $('#add-button').val(),
-          productqty: '1',
+          productid: $(this).data('index'),
           csrfmiddlewaretoken: "{{csrf_token}}",
-          action: 'post',
+          productqty: '1',
+          action: 'add',
         },
   
         success: function (json) {
@@ -87,5 +87,4 @@
       })
     })
   </script>
-
 {% endblock %}
