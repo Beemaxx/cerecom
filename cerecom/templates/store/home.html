@@ -4,62 +4,71 @@
 {% block title %}Home Page{% endblock %}
 {% block content %}
 <main>
-    <section class="py-3 text-center container my-0">
-        <div class="row py-lg-5 my-1">
-            <div class="col-lg-6 col-md-8 mx-auto">
+    <section class="text-center container my-5">
+            <div class="container-fluid">
                 <h1 class="fw-light">Japanese Ceramic Pottery</h1>
                 <p class="lead text-muted">a True Timeless Beauty.</p>
+
+                {% if user.is_not_authenticated %}
                 <p>
-                    <a href="#" class="btn btn-outline-primary my-2">Register Now</a>
+                    <a href="#" class="btn btn-outline-primary my-2">Register or Log In Now</a>
                     <a href="#" class="btn btn-outline-secondary my-2">Browse As Guest</a>
                 </p>
+                {% endif %}
             </div>
-        </div>
     </section>
 
     <div>
         <div class="album py-5 bg-light">
             <div class="container">
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
                     {% for product in products %}
-                    <div class="row container">
-                        <div class="container card shadow-sm">
-
-                            <div class="card-image">
-
-                                <div class="p-2 col-md-4 px-0">
-                                    <img class="img-thumbnail img-fluid rounded mx-auto d-block" alt="Responsive Image"
-                                        src="{{ product.image.url }}">
-                                </div>
-                            </div>
-
-                            <div class="container card-body align-self-bottom">
-                                <div class="card-text">{{ product.name }}</div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                                            <a type="button" role="button"
-                                                href="{{ product.get_absolute_url }}">View</a>
-                                        </button>
-
-                                        <button id="add-button" data-index="{{ product.id }}"
-                                            class="add-button btn btn-outline-secondary mx-1" type="button">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                                                <path
-                                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                            </svg>
-                                        </button> 
-
-                                    </div>
-                                    <label class="btn btn-outline-primary">{{ product.price }} VND</label>
-                                </div>
-                            </div>
+                
+                    <div class="col">
+                        <div class="card shadow-sm">
+                        <div class=" mx-3 my-3">
+                            <b>Product:</b> 
+                            <a href={{ product.get_absolute_url}}>{{ product.name }}</a>
                         </div>
-                    </div>
+                        <div class="border-bottom mx-3"></div>
+                        <div class="container-fluid d-flex flex-wrap align-items-center" style="height:200px; width:auto">
+                            <!-- Image -->
+                        
+                                <img src="{{ product.image.url }}" class="img-fluid" alt="image" style="height:150px; width:auto">
+                         
+                        </div>
+                        <div class="border-top mx-3"></div>
+                          <!-- Product Description -->
+                          <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div class="btn-group">
+
+                                <!-- View Button -->
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <a type="button" role="button"
+                                        href="{{ product.get_absolute_url }}">View</a>
+                                </button>
+
+                                <!-- Add Button -->
+                                <button id="add-button" data-index="{{ product.id }}"
+                                    class="add-button btn btn-outline-secondary mx-1" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                                        <path
+                                            d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                        <path
+                                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                    </svg>
+                                </button> 
+
+                              <!-- Product Price-->  
+                              </div>
+                              <medium class="text-muted">{{product.price}} VND</medium>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     {% endfor %}
                 </div>
             </div>

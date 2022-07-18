@@ -44,8 +44,10 @@ def cart_delete(request):
 
         product_id = int(request.POST.get('productid'))
         cart.delete(product = product_id)
-        response = JsonResponse({'Success': True})
-        
+         
+        cartqty = cart.__len__()
+        print(cartqty)    
+        response = JsonResponse({'qty': cartqty})        
         return response
         
         
@@ -58,8 +60,13 @@ def cart_item_increase(request):
             product_quantity = int(request.POST.get('productqty'))
 
             cart.item_increase(product = product_id, qty=product_quantity)
-            response = JsonResponse({'Success': True})
-    
+            cartqty = cart.__len__()
+
+         
+            cartqty = cart.__len__()
+            print(cartqty)    
+            response = JsonResponse({'qty': cartqty})    
+            
     return response
 
 
@@ -73,6 +80,24 @@ def cart_item_decrease(request):
         product_quantity = int(request.POST.get('productqty'))
 
         cart.item_decrease(product = product_id, qty=product_quantity)
-        response = JsonResponse({'Success': True})
+         
+        cartqty = cart.__len__()
+        print(cartqty)    
+        response = JsonResponse({'qty': cartqty})
+    return response
+
+def cart_update(request):
+    cart = Cart(request)
     
+    if request.POST.get('action') == 'update_cart':
+        
+        product_id = int(request.POST.get('productid'))
+        product_quantity = int(request.POST.get('productqty'))
+
+        cart.update(product = product_id, qty=product_quantity)
+         
+        cartqty = cart.__len__()
+        print(cartqty)    
+        response = JsonResponse({'qty': cartqty})
+        
     return response

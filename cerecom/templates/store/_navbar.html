@@ -1,18 +1,20 @@
-<div class="container">
+<div class="container-fluid">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
         aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <a href="{% url 'store:all_products' %}" class="logo1-img">
         <img style="height:50px" src='/media/covers/tca.jpeg'>
       </a>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-3">
-          {% comment %} Home Button {% endcomment %}
+
+          <!-- Home Button -->
           <li class="nav-item">
-            <a type="button" role="button" class="btn btn-outline-primary mx-3" href="{% url 'store:all_products' %}">
+            <a type="button" role="button" class="btn btn-outline-grey mx-3 rounded image-responsive" href="{% url 'store:all_products' %}">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house"
                 viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -20,21 +22,27 @@
                 <path fill-rule="evenodd"
                   d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
               </svg>
-              <div class="d-inline-flex">
-                Home
-              </div>
             </a>
           </li>
+
+          <!-- Drop-down menu Icon -->
+
           <li class="nav-item dropdown mx-3">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button"
               aria-expanded="false">All Products</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'store:all_products' %}" >All</a>
+
+              <!-- All Product -->
+              <li><a class="dropdown-item" href="{% url 'store:all_products' %}">All</a>
+
+                <!-- Category Based -->
                 {% for c in product_categories %}
               <li><a class="dropdown-item" href="{{ c.get_absolute_url }}"> {{ c.name|title }}</a>
                 {% endfor %}
             </ul>
           </li>
+
+          <!-- User Authentication -->
           {% if user.is_authenticated %}
           <li class="nav-item mx-3">
             <a class="nav-link" href="">Log Out</a>
@@ -49,15 +57,12 @@
             </ul>
           </li>
           {% endif %}
-          <li class="nav-item mx-3">
-            <a class="nav-link" href="">About</a>
-          </li>
         </ul>
 
 
         <form class="d-flex ml-3">
 
-          {% comment %} Search Icon {% endcomment %}
+          <!-- Search Icon -->
           <a type="button submit" role="button" class="btn btn-outline-primary mx-1" href="">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
               viewBox="0 0 16 16">
@@ -66,20 +71,21 @@
             </svg>
           </a>
 
-          {% comment %} Search bar {% endcomment %}
+          <!-- Search Bar -->
           <input class="form-control mx-1" type="search" placeholder="Search" aria-label="Search">
         </form>
         {% if user.is_authenticated %}
-        {% comment %} Cart icon {% endcomment %}
-        <a type="button" role="button" class="btn btn-outline-primary mx-1" href="{% url 'cart:cart_summary' %}">
+
+        <!-- Cart Icon -->
+        <a type="button" role="button" class="btn btn-outline-primary mx-1" data-inline="True" href="{% url 'cart:cart_summary' %}">
 
           {% with total_qty=cart|length %}
           <div id="cart_quanty" class="d-inline-flex">
 
             {% if total_qty > 0 %}
-              {{ total_qty }}
+            <snall>{{ total_qty }}</small>
             {% else %}
-              0
+            0
             {% endif %}
           </div>
 
@@ -95,7 +101,7 @@
         {% endif %}
       </div>
     </div>
-    
+
 </div>
 </nav>
 </div>

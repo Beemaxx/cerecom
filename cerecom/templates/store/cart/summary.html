@@ -7,10 +7,11 @@
 <div class="container my-5">
 
   <div class="row g-5">
-    <h2> Shopping Cart</h2>
     <div class="col-md">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary">Your cart</span>
+        <span class="text-primary">
+          <h2>Your Cart</h2>
+        </span>
         <!--CART QUANTITY -->
         <span class="badge bg-primary rounded-pill">
 
@@ -44,11 +45,11 @@
         <tbody>
           {% for item in cart_items %}
           <div>
-            <tr class="cart-items" data-index="{{item.product.id}}">
+            <tr class="cart-items align-middle" data-index="{{item.product.id}}">
               <th scope="row" class=""> {{ forloop.counter }} </th>
               <td>
                 {{ item.product.name }}<br>
-                <a href="{{ item.product.get_absolute.url }}">View more {{ product.get_absolute.url }}</a>
+                <a href="{{ item.product.get_absolute_url }}">View more </a>
 
               </td>
               <td class="text-center">
@@ -57,21 +58,35 @@
               <td>{{ item.price }} VND</td>
               <td class="text-center">
                 <!-- QUANTITY BUTTON-->
-                <!-- ITEM INCREASE BUTTON-->
-                <button data-index="{{item.product.id}}" class="item-increase-button">+</button>
-                <!-- END OF ITEM INCREASE BUTTON-->
 
+
+
+                <!-- ITEM INCREASE BUTTON-->
+
+                <button data-index="{{item.product.id}}" class="item-increase-button btn btn-none" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-caret-up" viewBox="0 0 16 16">
+                    <path
+                      d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z" />
+                  </svg>
+                </button>
+                <!-- quantity data -->
                 <span class="item-quantity" data-index="{{item.qty}}"> {{ item.qty }} </span>
                 <!-- ITEM DECREASE BUTTON-->
-                <button data-index="{{item.product.id}}" class="item-decrease-button">-</button>
-                <!-- END OF ITEM DECREASE BUTTON-->
+                <button data-index="{{item.product.id}}" class="item-decrease-button btn btn-none" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-caret-down" viewBox="0 0 16 16">
+                    <path
+                      d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
+                  </svg>
+                </button>
 
                 <!-- END OF QUANTITY BUTTON-->
 
                 <!-- DELETE BUTTON-->
               <td class="text-center">
                 <button id="delete-button" data-index="{{item.product.id}}"
-                  class="delete-button btn btn-outline-secondary mx-1" type="button">
+                  class="delete-button btn btn-outline-none mx-1" type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
                     viewBox="0 0 16 16">
                     <path
@@ -108,7 +123,7 @@
           <!-- TOTAL ROW -->
           <tr>
             <td colspan="6">
-              Total (VND)
+              <b>Total (VND)</b>
             </td>
             <td class="text-end">
               <strong>{{ cart.get_total_price }} VND</strong>
@@ -142,7 +157,7 @@
           })
         })
 
-   
+
         $(document).on('click', '.item-increase-button', function (e) {
           e.preventDefault();
           var proid = $(this).data('index');
@@ -160,6 +175,8 @@
             success: function (json) {
               console.log(proid)
               $('.cart-items[data-index="' + proid + '"]').remove();
+              document.getElementById("cart_quanty").innerHTML = json.qty;
+
               location.reload();
 
             },
@@ -168,7 +185,7 @@
         })
 
 
-       $(document).on('click', '.item-decrease-button', function (e) {
+        $(document).on('click', '.item-decrease-button', function (e) {
           e.preventDefault();
           var proid = $(this).data('index');
 
@@ -185,6 +202,8 @@
             success: function (json) {
               console.log(proid)
               $('.cart-items[data-index="' + proid + '"]').remove();
+              document.getElementById("cart_quanty").innerHTML = json.qty;
+
               location.reload();
 
             },
