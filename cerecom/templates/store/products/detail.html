@@ -3,52 +3,104 @@
 {% load humanize %}
 {% block content %}
 
-<div class="container my-3">
-  <div class="row justify-content-md-center">
-    <div class="row">
-      <div>
-        <h2>{{ product.name }}</h2>
-      </div>
-    </div>
-    <div class="col my-3">
-      <duv class="row">
-        <div class="col">
+<div class="container my-3 border-top">
 
-          <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:200px" alt="">
+  <div class="col border my-3">
+    <div class="row container-fluid">
 
+      <!-- Left Column Top Big Picture -->
+
+      <div class="container col p-3 align-middle text-center">
+        <div class="container-fluid col border p-3">
+
+          <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:300px" alt="">
         </div>
-        <div class="col">
-          <p> Category: <a href="{{ product.category_id.get_absolute_url}}"> {{ product.category_id.name }} </a>
-            <p>Description:</p>
-            <p>{{ product.desc }}</p>
-            <p>Price: {{ product.price }} VND</p>
-            <div class="my-3">
-              <label for="select">Quantity</label>
-              <select id="select">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-              </select>
-              <button id="add-button" value="{{product.id}}" class="btn btn-outline-secondary mx-3" type="button">Add to
-                Cart</button>
+
+        <!-- Left Column Bottom 3 Small Pictures -->
+
+        <div class="my-2 mx-2">
+          <div class="row">
+            <div class="col border p-3 ">
+              <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:100px" alt="">
+              1
             </div>
-
+            <div class="col border mx-1 p-3 ">
+              <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:100px" alt="">
+              2
+            </div>
+            <div class="col border p-3 ">
+              <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:100px" alt="">
+              3
+            </div>
+          </div>
         </div>
+      </div>
+      <!-- Right Column Information -->
+      <div class="col p-3">
+        <div class="border-left">
+          <!-- Name -->
+
+          <div> Product name:
+          </div>
+          <div class="text-center my-5">
+            <h3>{{product.name}}</h3>
+          </div>
+          <!-- Category -->
+
+          <div class="my-4">
+            Category: <a href="{{product.category_id.get_absolute_url}}">{{ product.category_id.name}}</a>
+          </div>
+          <!-- Description -->
+          <div class="my-4">Description:
+
+            <p class="px-2 my-3">{{ product.desc }}aaa</p>
+          </div>
+          <div class="my-5">
+            <!-- Price -->
+            <p>Price: {{ product.price }} VND</p>
+          </div>
+
+          <div class="my-5">
+            <!-- Quantity -->
+            <label for="select" class="mr-5">Quantity</label>
+            <select id="select" class="mx-3">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+
+            <!-- Add button-->
+            <button id="add-button" data-index="{{ product.id }}" class="add-button btn btn-outline-primary mx-3 rounded-pill"
+              type="button">
+              Add to Cart
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-plus-square" viewBox="0 0 16 16">
+                <path
+                  d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+              </svg>
+            </button>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <script>
-  $(document).on('click', '#add-button', function (e) {
+  $(document).on('click', '.add-button', function (e) {
     e.preventDefault();
+    var item_quty_single = $('#select').find(":selected").val();
     $.ajax({
       type: 'POST',
       url: '{% url "cart:cart_add" %}',
       data: {
-        productid: $('#add-button').val(),
-        productqty: $('#select option:selected').text(),
+        productid: $(this).data('index'),
         csrfmiddlewaretoken: "{{csrf_token}}",
-        action: 'post',
+        productqty: item_quty_single,
+        action: 'add',
       },
 
       success: function (json) {

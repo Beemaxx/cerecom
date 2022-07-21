@@ -5,6 +5,8 @@ from django.db import models
 from django.forms import BooleanField
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
+
 
 class ProductManager(models.Manager):
     def get_queryset(self):
@@ -62,14 +64,14 @@ class Product_Category(TimeStampedModel):
 
 class Product(TimeStampedModel):
     category_id = models.ForeignKey(Product_Category, related_name='product_category', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, related_name='product_creator', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='product_creator', on_delete=models.CASCADE)
     inventory_id = models.ForeignKey(Product_Inventory, related_name='product_inventory', on_delete=models.CASCADE)
     discount_id = models.ForeignKey(Product_Discount, related_name='product_discount', on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique = True)
     desc = models.TextField(blank=True)
     SKU = models.PositiveIntegerField(default=1)
-    price = models.IntegerField(max_length=10)
+    price = models.IntegerField(default=0)
     origin = models.CharField(max_length=255, default='Japan')
     image = models.ImageField(upload_to='images/', default='images/default.jpeg')
     in_stock = models.BooleanField(default=True)

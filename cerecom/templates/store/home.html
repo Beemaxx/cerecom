@@ -4,10 +4,7 @@
 {% block title %}Home Page{% endblock %}
 {% block content %}
 <main>
-    <section class="text-center container my-5">
-            <div class="container-fluid">
-                <h1 class="fw-light">Japanese Ceramic Pottery</h1>
-                <p class="lead text-muted">a True Timeless Beauty.</p>
+    <section class="text-center container my-4">
 
                 {% if user.is_not_authenticated %}
                 <p>
@@ -15,7 +12,6 @@
                     <a href="#" class="btn btn-outline-secondary my-2">Browse As Guest</a>
                 </p>
                 {% endif %}
-            </div>
     </section>
 
     <div>

@@ -23,6 +23,8 @@ def cart_add(request):
     
     cart = Cart(request)
     
+    print(request.POST.get('product_id'))
+          
     if request.POST.get('action') == 'add':
         product_id = int(request.POST.get('productid'))
         product_quantity = int(request.POST.get('productqty'))

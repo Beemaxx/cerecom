@@ -77,13 +77,17 @@
         {% if user.is_authenticated %}
 
         <!-- Cart Icon -->
-        <a type="button" role="button" class="btn btn-outline-primary mx-1" data-inline="True" href="{% url 'cart:cart_summary' %}">
+        <a type="button" role="button" class="btn btn-outline-primary mx-1 position-relative" data-inline="True" href="{% url 'cart:cart_summary' %}">
 
           {% with total_qty=cart|length %}
           <div id="cart_quanty" class="d-inline-flex">
 
             {% if total_qty > 0 %}
-            <snall>{{ total_qty }}</small>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ total_qty }}
+              <span class="visually-hidden">Items in Cart</span>
+            </span>
+     
             {% else %}
             0
             {% endif %}
