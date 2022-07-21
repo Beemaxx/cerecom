@@ -1,0 +1,27 @@
+{% extends "../../base.html" %}
+{% block  title %}Register Page{% endblock %}
+{% block content %}
+<form class="account-form p-4 rounded mx-auto" action="." method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <p>Please correct the following errors:</p>
+    {% for field in form %}
+    {% if field.errors %}
+    <div class="alert alert-primary" role="alert">
+        {{field.label}}: {{ field.errors|striptags}}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <p><label>{{ form.user_name.label }} <span class="text-muted small">(Required)</span></label> {{ form.user_name }}</p>
+    <p><label>{{ form.email.label }} <span class="text-muted small">(Required)</span></label> {{ form.email }}</p>
+    <p><label>{{ form.password.label }} <span class="text-muted small">(Required)</span></label> {{ form.password }}</p>
+    <p><label>{{ form.password2.label }} <span class="text-muted small">(Required)</span></label> {{ form.password2 }}</p>
+
+    <button class="btn btn-primary btn-block py-2 mt-5 fw500 w-100" type="submit" >Register</button>
+    <p class="text-center my-3">
+        <a href=""> Already have an account?</a>
+</form>
+{% endblock %}
