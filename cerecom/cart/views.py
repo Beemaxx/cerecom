@@ -6,10 +6,11 @@ from django.shortcuts import get_object_or_404, render
 from .cart import Cart
 from store.models import Product
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-  
+@login_required
 def cart_summary(request):
     
     template_name = "store/cart/summary.html"
@@ -19,6 +20,7 @@ def cart_summary(request):
     
     return render(request,template_name, context )
 
+@login_required
 def cart_add(request):
     
     cart = Cart(request)
@@ -37,7 +39,8 @@ def cart_add(request):
         response = JsonResponse({'qty': cartqty})
         
         return response
-    
+
+@login_required    
 def cart_delete(request):
     
     cart = Cart(request)
@@ -52,7 +55,7 @@ def cart_delete(request):
         response = JsonResponse({'qty': cartqty})        
         return response
         
-        
+@login_required        
 def cart_item_increase(request):
     
     cart = Cart(request)
@@ -72,7 +75,7 @@ def cart_item_increase(request):
     return response
 
 
-        
+@login_required        
 def cart_item_decrease(request):
 
     cart = Cart(request)

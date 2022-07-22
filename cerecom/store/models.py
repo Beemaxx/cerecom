@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
 
+sample_content = "Some quick example text to build on the card title and make up the bulk of the card's content."
 
 class ProductManager(models.Manager):
     def get_queryset(self):
@@ -23,7 +24,7 @@ class TimeStampedModel(models.Model):
     
 
 class Product_Inventory(TimeStampedModel):
-    vendor = models.CharField(max_length=255, default="")
+    vendor = models.CharField(max_length=255, default="Not sepcifc")
     quantity = models.PositiveIntegerField(default=1)
     
     class Meta:
@@ -69,7 +70,7 @@ class Product(TimeStampedModel):
     discount_id = models.ForeignKey(Product_Discount, related_name='product_discount', on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique = True)
-    desc = models.TextField(blank=True)
+    desc = models.TextField(blank=True, default=sample_content)
     SKU = models.PositiveIntegerField(default=1)
     price = models.IntegerField(default=0)
     origin = models.CharField(max_length=255, default='Japan')
