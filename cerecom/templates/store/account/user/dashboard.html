@@ -8,9 +8,10 @@
         <div class="col-12">
             <h2 class="h2">Your Dashboard</h2>
         </div>
-        <div class="col-12 d-flex justify-content-between">
+        <div>Hi {{ name }} - Welcome Back!</div>
+        <div class="col-12 d-flex justify-content-between align-end">
             <div>Manage your <b>order</b> and personal details.</div>
-            <div><a href="">Change Details<a /></div>
+            <div><a href="{% url 'account:edit_details' %}">Change Details<a /></div>
         </div>
         <hr />
     </div>

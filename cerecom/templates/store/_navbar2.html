@@ -4,11 +4,11 @@
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
                 <!-- Image -->
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" type="button" >
-                    <a href="{% url 'store:all_products' %}" >
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" type="button">
+                    <a href="{% url 'store:all_products' %}">
 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="grey"
-                            class="bi bi-house" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="grey" class="bi bi-house"
+                            viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
                             <path fill-rule="evenodd"
@@ -37,17 +37,7 @@
 
                     <!-- If User is Authenticated-->
                     {% if user.is_authenticated %}
-                    <!-- Dashboard -->
-                    <li>
-                        <a href="{% url 'account:dashboard' %}" class="nav-link text-dark">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                class="bi bi-fullscreen" viewBox="0 0 16 16">
-                                <path
-                                    d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z" />
-                            </svg>
-                            Dashboard
-                        </a>
-                    </li>
+
 
                     <!-- Carts -->
                     <li>
@@ -63,7 +53,7 @@
                                     <small>{{ total_qty }}</small>
                                 </span>
                                 {% else %}
-                                
+
                                 {% endif %}
                                 {% endwith %}
                             </div>
@@ -78,7 +68,17 @@
 
 
                     </li>
-
+                    <!-- Dashboard -->
+                    <li>
+                        <a href="{% url 'account:dashboard' %}" class="nav-link text-dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                class="bi bi-fullscreen" viewBox="0 0 16 16">
+                                <path
+                                    d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z" />
+                            </svg>
+                            User Profile
+                        </a>
+                    </li>
 
                     <!-- Log Out Button -->
                     <li>

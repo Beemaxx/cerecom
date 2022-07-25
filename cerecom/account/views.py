@@ -1,10 +1,10 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, request
-from .forms import RegistrationForm
+from .forms import RegistrationForm, UserEditForm
 from .token import account_activation_token
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -71,8 +71,38 @@ def account_activate(request, uidb64, token):
 @login_required
 def dashboard(request):
     
+    print(request.session.keys())
+    print(request.session['_auth_user_id'])
+    auth_user = get_object_or_404(UserBase, pk=request.session['_auth_user_id'])
+    print(auth_user.user_name)
+
     # orders = users_orders(request)
     
-    return render(request, 'store/account/registration/dashboard.html', 
+    return render(request, 'store/account/user/dashboard.html', {'name': auth_user.user_name}
                 #   { 'section':'profile', 'orders':orders}
                   )
+    
+    
+@login_required
+def edit_details(request):
+    if request.method == "POST":
+        user_form = UserEditForm(instance=request.user, data = request.POST)
+        
+        if user_form.is_valid():
+            user_form.save()
+            
+    else: 
+        user_form = UserEditForm(instance=request.user)
+        
+    return render(request, 'store/account/user/edit_details.html', {'user_form': user_form})
+
+@login_required
+def delete_users(request):
+    if request.method == "POST":
+    
+        user = UserBase.objects.get(user_name = request.user) #get user from database
+        user.is_active = False
+        user.save()
+        logout(request)
+        
+        return redirect('account:delete_confirm')

@@ -1,0 +1,33 @@
+{% extends "../../base.html" %}
+{% load static %}
+{% block title %}Reset Confirm{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="col-md-12">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-7  mx-auto">
+                            <div class="p-4">
+                                {% if 'email' in request.get_full_path %}
+                                    <h3 class="mb-4">Password Reset Success!</h3>
+                                    <p>Check your email for instruction
+                                        or click <a href={% url 'store:all_products' %}>here</a> to return to homepage.
+                                    </p>
+                        
+                                {% endif %}
+                                {% if 'complete' in request.get_full_path %}
+                                <h3 class="mb-4">Password Reset Success!</h3>
+                                You can go to the <a href="{% url 'account:login' %}">Login</a> page.
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

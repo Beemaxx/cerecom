@@ -31,7 +31,7 @@
 
     <button class="btn btn-primary btn-block py-2 mt-5 fw500 w-100" type="submit">Sign In</button>
     {# Assumes you set up the password_reset view in your URLconf #}
-    <p class="text-center my-3"><a href="">Lost password?</a></p>
+    <p class="text-center my-3"><a href="{% url 'account:password_reset'%}">Lost password?</a></p>
 
 </form>
 {% endblock %}

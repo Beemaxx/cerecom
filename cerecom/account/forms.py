@@ -1,6 +1,10 @@
 from django import forms
 from .models import UserBase
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django_countries.fields import CountryField
+from django.utils.translation import gettext_lazy as _
+
+
 
 
 class RegistrationForm(forms.ModelForm):
@@ -62,3 +66,104 @@ class UserLoginForm(AuthenticationForm):
                'id': 'login-pwd',
                }
     ))
+    
+    
+class UserEditForm(forms.ModelForm):
+    
+    email = forms.EmailField(
+        label='Account Email can not be changed',
+        max_length=200,
+        widget= forms.TextInput(
+            attrs={
+                'class': 'form-control mb-3',
+                'placeholder': 'email',
+                'id': 'form-email',
+                'readonly':'readonly'
+            }
+        )
+    )
+    user_name = forms.CharField(
+        label='Username',
+        min_length=4,
+        max_length=50,
+        widget= forms.TextInput(
+            attrs={
+                'class': 'form-control mb-3',
+                'placeholder': 'Username',
+                'id': 'form-firstname'
+            }
+        )
+    )
+    first_name = forms.CharField(
+        label='Full Name',
+        min_length=4,
+        max_length=50,
+        widget= forms.TextInput(
+            attrs={
+                'class': 'form-control mb-3',
+                'placeholder': 'Firstname',
+                'id': 'form-lastname'
+            }
+        )
+    )
+    
+    country = CountryField(
+    )
+    class Meta:
+        model = UserBase
+        fields = ('email', 'first_name', 'user_name', 'country','about')
+        
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['user_name'].required = True
+            self.fields['email'].required = True
+             
+
+
+class PwdResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        max_length=254,
+        widget= forms.TextInput(
+            attrs={
+                'class': 'form-control mb-3',
+                'placeholder': 'Email',
+                'id': 'form-email',
+            }
+        )
+    ) 
+        
+    def clean_email(self):
+        
+        email = self.cleaned_data['email'].lower()
+        u = UserBase.object.filter(email=email)
+        
+        if not u:
+            raise forms.ValidationError(
+                'Please try the correct email.'
+            )
+            
+        return email
+    
+
+class PwdResetConfirmForm(SetPasswordForm):
+        
+    new_password1 = forms.CharField(label=_("New password"), widget=forms.PasswordInput(
+            attrs={'class':'form-control mb-3',
+                'placeholder': 'Password',
+                'id': 'form-new-pass1',
+                }
+        ))
+    
+    new_password2 = forms.CharField(label=_("Re-enter password"), widget=forms.PasswordInput(
+        attrs={'class':'form-control mb-3',
+               'placeholder': 'Repeated Password',
+               'id': 'form-new-pass2',
+               }
+        ))
+          
+    def clean_password2(self):
+            
+            clean_data = self.cleaned_data
+            if clean_data['new_password1'] != clean_data['new_password2']:
+                raise forms.ValidationError("Passwords do not match.")
+            return clean_data['new_password2']
