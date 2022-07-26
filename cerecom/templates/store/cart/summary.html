@@ -105,6 +105,8 @@
               <!-- END OF PRICE -->
             </tr>
 
+
+
           </div>
           {% endfor %}
           <tr>
@@ -133,6 +135,34 @@
         </tfoot>
 
       </table>
+      <!-- Checkout Button -->
+        {% with total_qty=cart|length %}
+        <div id="cart_quanty" class="d-inline-flex align-items-end">
+
+          {% if total_qty > 0 %}
+          <div clas=s"col-md-5 col-lg-4 order-md-last p-0 order-3 align-items-end">
+            <div class="gap-2">
+              <a role="button" href="{% url 'payment:home' %}" class="btn btn-success fw-bold" type="button"
+                disabled>Checkout</a>
+              <button class="btn btn-light" type="button">Save for later</button>
+            </div>
+          </div>
+          {% else %}
+
+          <div clas=s"col-md-5 col-lg-4 order-md-last p-0 order-3">
+            <div class="gap-2">
+              There is no items in your cart.
+              Go to <a href={% url 'store:all_products' %}>homepage</a> to shop.
+            </div>
+          </div>
+          {% endif %}
+        {% endwith %}
+      </div>
+
+
+
+
+
       <script>
         $(document).on('click', '.delete-button', function (e) {
           e.preventDefault();

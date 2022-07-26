@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_^6wn+yeyc=(_cw5%nka8+b_++&9lj0p-+ka$6fa45$#6c)1sb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'localhost']
 
 
 # Application definition
@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'account',
     'django_countries',
     'import_export', #import export module 21st Jul
+    'payment',
+    'order',
  ]
 
 MIDDLEWARE = [
@@ -115,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'
 
 USE_I18N = True
 
@@ -153,3 +155,8 @@ LOGOUT_REDIRECT_URL = '/'
 # Enauk settings
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#Stripe Payment
+STRIPE_ENDPOINT_SECRET = 'whsec_63ce653a79e541729a93ee764155dca0dc98b214446756f291b43c0b4fd37909'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51JPovwI5VK2lgzs7SWs7q6RFEXDiFb2z4LrBv4Yz4hux142qzNGE288Lwcec6u2cKxnZ1id6UyfGFNTleEmOzaOr0006AJGMVG'
+STRIPE_SECRET_KEY = 'sk_test_51JPovwI5VK2lgzs7EKjqxgX8HOXez7WuVyHtNJln6JOEjw2osd7IwyZ2XJSia2Kv1fdXWZ6gYObL9MNfJ8Mi3u7H00uPCcSyPR'

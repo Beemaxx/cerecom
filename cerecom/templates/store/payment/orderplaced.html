@@ -1,0 +1,27 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}Order Success{% endblock %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutter">
+        <div class="col-md-12">
+            <div class="d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-7  mx-auto">
+                            <div class="p-4">
+                                <p>Your payment is completed and your shipment will be ready within today.</p>
+                                <p>Thank you for shopping with us!</p>
+                                <p>To check your shipment, please go to <a href={% url 'account:dashboard' %}> Dashboard </a>.</p>
+                                <p>To continue shopping,  please go to <a href={% url 'store:all_products' %}> Homepage </a>.</p> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

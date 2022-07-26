@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from .models import UserBase
+from order.views import user_orders
 
 
 # Create your views here.
@@ -71,14 +72,19 @@ def account_activate(request, uidb64, token):
 @login_required
 def dashboard(request):
     
-    print(request.session.keys())
-    print(request.session['_auth_user_id'])
+    user_order = user_orders(request)
     auth_user = get_object_or_404(UserBase, pk=request.session['_auth_user_id'])
+    
+    context = { 'user_orders' : user_order,
+                'name' : auth_user,
+        
+    }
     print(auth_user.user_name)
+    print(user_order)
 
     # orders = users_orders(request)
     
-    return render(request, 'store/account/user/dashboard.html', {'name': auth_user.user_name}
+    return render(request, 'store/account/user/dashboard.html', context
                 #   { 'section':'profile', 'orders':orders}
                   )
     

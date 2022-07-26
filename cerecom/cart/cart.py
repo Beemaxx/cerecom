@@ -77,6 +77,10 @@ class Cart():
             
         self.save()
         
+    def clear(self): 
+        del self.session['skey']
+        self.save()
+        
     def __iter__(self):
         product_ids = self.cart.keys()
         products = Product.products.filter(id__in=product_ids)
