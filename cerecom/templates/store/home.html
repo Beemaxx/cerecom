@@ -6,10 +6,20 @@
 <main>
 
 
+  {% if user.is_authenticated %}
+  <!-- Browse by Product Category-->
+  <div class="container d-flex justify-content-center my-3">
+    {% for c in product_categories %}
+    <button type="button" class="btn btn-outline-secondary rounded px-3 mx-3"><a
+        class="text-decoration-none text-reset" href="{{ c.get_absolute_url }}">
+        {{ c.name|title }}</a></button>
+    {% endfor %}
+  {% endif %}
+  </div>
     <div>
         <div class="album py-5 bg-light">
             <div class="container">
-
+              
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
                     {% for product in products %}
                 
@@ -17,7 +27,7 @@
                         <div class="card shadow-sm">
                         <div class=" mx-3 my-3">
                             <b>Product:</b> 
-                            <a href={{ product.get_absolute_url}}>{{ product.name }}</a>
+                            <a class="text-decoration-none text-reset" href={{ product.get_absolute_url}}>{{ product.name }}</a>
                         </div>
                         <div class="border-bottom mx-3"></div>
                         <div class="container-fluid d-flex flex-wrap align-items-center" style="height:200px; width:auto">
@@ -34,7 +44,7 @@
 
                                 <!-- View Button -->
                                 <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <a type="button" role="button"
+                                    <a class="text-decoration-none text-reset" 
                                         href="{{ product.get_absolute_url }}">View</a>
                                 </button>
 

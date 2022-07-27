@@ -8,16 +8,21 @@
         <div class="col-12">
             <h2 class="h2">Your Dashboard</h2>
         </div>
-        <div>Hi {{ name }} - Welcome Back!</div>
-        <div class="col-12 d-flex justify-content-between align-end">
-            <div>Manage your <b>order</b> and personal details.</div>
-            <div><a href="{% url 'account:edit_details' %}">Change Details<a /></div>
+        <div>Hi <b>{{ name }}</b>- Welcome Back!</div>
+        <div class="col-12 d-flex justify-content-between text-end">
+            <div class="col text-start my-2">Manage your <b>order</b> and personal details.</div>
+            <div class="col text-end"><a href="{% url 'account:edit_details' %}">Change Details<a /></div>
         </div>
         <hr />
-        {% for item in user_orders %}
+        {% for order in user_orders %}
         <div> 
-            <ul>Your current oder is: {{ item.created_at }} 
-                <li>Billing Status: {{ item.billing_status }}</li>
+            <ul>Your current oder is: {{ order.created_at }} 
+                <li>Billing Status: {{ order.billing_status }}</li>
+                The following are the items in the orders:
+                {% for item in order.items.all %}
+                <li> {{ item.product.name }}
+                <li> {{ item.product.price }}
+                {% endfor %}
             </ul>
         </div>
         {% endfor %}

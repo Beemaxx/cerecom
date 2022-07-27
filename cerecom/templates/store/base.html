@@ -42,15 +42,20 @@
       <h1 class="fw-light">Japanese Ceramic Pottery</h1>
       <p class="lead text-muted">a Timeless Beauty.</p>
     </div>
+
+
+
+
     <section class="text-center container my-4">
 
       {% if user.is_authenticated %}
+   
       {% else %}
       <p>
-        <a href="{% url 'account:login' %}" type="button" class="btn btn-outline-primary rounded-pill">Log In Now</a> --
-        OR --
+        ---- <a href="{% url 'account:login' %}" type="button" class="btn btn-outline-primary rounded-pill">Log In Now</a> ----
+        OR ----
         <a href="{% url 'account:register' %}" type="button"
-          class="btn btn-outline-secondary rounded-pill ">Register</a>
+          class="btn btn-outline-secondary rounded-pill ">Register</a> ----
 
       </p>
       {% endif %}
@@ -88,27 +93,27 @@
     <div class="col-6 col-md">
       <h5>Features</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="link-secondary" href="#">Cool stuff</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Cool stuff</a></li>
     </div>
     <div class="col-6 col-md">
       <h5>Resources</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="link-secondary" href="#">Resource name</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Resource name</a></li>
       </ul>
     </div>
     <div class="col-6 col-md">
       <h5>Resources</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="link-secondary" href="#">Business</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Business</a></li>
       </ul>
     </div>
     <div class="col-6 col-md">
       <h5>About</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="link-secondary" href="#">Team</a></li>
-        <li><a class="link-secondary" href="#">Locations</a></li>
-        <li><a class="link-secondary" href="#">Privacy</a></li>
-        <li><a class="link-secondary" href="#">Terms</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Team</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Locations</a></li>
+        <li><a class="text-decoration-none link-secondary"href="#">Privacy</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Terms</a></li>
       </ul>
     </div>
   </div>
