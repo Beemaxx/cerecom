@@ -10,30 +10,41 @@
 
       <!-- Left Column Top Big Picture -->
 
-      <div class="container col p-3 align-middle text-center">
-        <div class="container-fluid col  p-3">
+      <div class="d-flex container col p-4 justify-content-center py-3 ">
+        <div class="container-fluid col  py-3">
 
-          <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:300px" alt="">
-        </div>
+            <div id="carouselExampleInterval" class="d-flex carousel slide py-3" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active" data-bs-interval="10000">
+                    <img src={{ product.image.url }} class="d-block img-fluid" style="width:auto ; height:350px" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="2000">
+                    <img src={{ product.image.url }} class="d-block img-fluid" style="width:auto ; height:350px" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src={{ product.image.url }} class="d-block img-fluid" style="width:auto ; height:350px" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>        
+            </div>
+
+    
 
         <!-- Left Column Bottom 3 Small Pictures -->
 
-        <div class="my-2 mx-2">
-          <div class="row">
-            <div class="col  p-3 ">
-              <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:100px" alt="">
-              1
-            </div>
-            <div class="col  mx-1 p-3 ">
-              <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:100px" alt="">
-              2
-            </div>
-            <div class="col  p-3 ">
-              <img src="{{ product.image.url }}" class="img-fluid" style="width:auto ; height:100px" alt="">
-              3
-            </div>
-          </div>
-        </div>
       </div>
 
 
@@ -42,19 +53,19 @@
       <!-- Right Column Information -->
 
 
-      <div class="col border-left p-3 my-3   ">
+      <div class="col border-left p-2 my-1   ">
         <div class="">
           <!-- Name -->
 
           <div class="font-weight-light"> <h6>Product name:</h6>
           </div>
-          <div class="my-3">
+          <div class="my-2">
             <p class="font-weight-light h1"> {{product.name}}</p>
 
           </div>
           <!-- Category -->
 
-          <div class="d-inline-flex my-2">
+          <div class="d-inline-flex my-1">
             <h5>Category: <a href="{{product.category_id.get_absolute_url}}"
                 class="text-decoration-none">{{ product.category_id.name}}</a> </h5>
           </div>

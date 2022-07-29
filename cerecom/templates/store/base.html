@@ -38,7 +38,7 @@
 <body>
   <!-- Blank section-->
   <section class="container my-4 ">
-    <div class="container-fluid text-center">
+    <div class="container-fluid text-center border-light border-bottom">
       <h1 class="fw-light">Japanese Ceramic Pottery</h1>
       <p class="lead text-muted">a Timeless Beauty.</p>
     </div>
@@ -49,13 +49,16 @@
     <section class="text-center container my-4">
 
       {% if user.is_authenticated %}
-   
+
       {% else %}
       <p>
-        ---- <a href="{% url 'account:login' %}" type="button" class="btn btn-outline-primary rounded-pill">Log In Now</a> ----
+        ---- <a href="{% url 'account:login' %}" type="button" class="btn btn-outline-primary rounded-pill">Log In
+          Now</a> ----
         OR ----
         <a href="{% url 'account:register' %}" type="button"
           class="btn btn-outline-secondary rounded-pill ">Register</a> ----
+
+        <p>It takes less than a minute.</p>
 
       </p>
       {% endif %}
@@ -72,12 +75,41 @@
       integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous">
     </script>
 
+      <!-- pagination-->
+      <div class="d-flex justify-content-center py-2">
+        <div class="pagination">
+          <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?page=1" class="text-decoration-none">First Page</a>
+            <a href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}" class="text-decoration-none" >
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5z"/>
+              </svg>
+            </a>
+            {% endif %}
+
+            <span class="current">
+               {{ page_obj.number }}
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}" class="text-decoration-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-bar-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8zm-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5z"/>
+              </svg></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="text-decoration-none">Last Page</a>
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
-<!-- Block Footer -->
 
-<hr />
-<footer class="container py-5">
+
+<!-- Block Footer -->
+<footer class="container py-5 border-top border-light">
   <div class="row">
     <div class="col-12 col-md">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
@@ -91,14 +123,17 @@
       <small class="d-block mb-3 text-muted">© 2021-2022</small>
     </div>
     <div class="col-6 col-md">
-      <h5>Features</h5>
+      <h5>Need help ?</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="text-decoration-none link-secondary" href="#">Cool stuff</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Order Issues</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Delivery Issues</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Refund</a></li>
+
     </div>
     <div class="col-6 col-md">
       <h5>Resources</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="text-decoration-none link-secondary" href="#">Resource name</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Blogs</a></li>
       </ul>
     </div>
     <div class="col-6 col-md">
@@ -112,7 +147,7 @@
       <ul class="list-unstyled text-small">
         <li><a class="text-decoration-none link-secondary" href="#">Team</a></li>
         <li><a class="text-decoration-none link-secondary" href="#">Locations</a></li>
-        <li><a class="text-decoration-none link-secondary"href="#">Privacy</a></li>
+        <li><a class="text-decoration-none link-secondary" href="#">Privacy</a></li>
         <li><a class="text-decoration-none link-secondary" href="#">Terms</a></li>
       </ul>
     </div>

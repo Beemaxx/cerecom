@@ -3,32 +3,48 @@
 {% block title %}Basket Summary{% endblock %}
 {% block content %}
 
-<main class="pt-5">
+<main class="pt-1">
     <div class="container" style="max-width: 1000px">
-        <div class="col-12">
+        <div class="col-12 my-3">
             <h2 class="h2">Your Dashboard</h2>
         </div>
-        <div>Hi <b>{{ name }}</b>- Welcome Back!</div>
+        <div class="my-3">Hi <b>{{ name }}</b> - Welcome Back!</div>
         <div class="col-12 d-flex justify-content-between text-end">
-            <div class="col text-start my-2">Manage your <b>order</b> and personal details.</div>
+            <div class="col text-start my-2">Manage your <b>{{ user_orders|length }} incoming order(s)</b> and personal details.</div>
             <div class="col text-end"><a href="{% url 'account:edit_details' %}">Change Details<a /></div>
         </div>
         <hr />
-        {% for order in user_orders %}
-        <div> 
-            <ul>Your current oder is: {{ order.created_at }} 
-                <li>Billing Status: {{ order.billing_status }}</li>
-                The following are the items in the orders:
-                {% for item in order.items.all %}
-                <li> {{ item.product.name }}
-                <li> {{ item.product.price }}
-                {% endfor %}
-            </ul>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="container" style="max-width: 1000px">
-    </div>
+        <!-- Orders -->
+
+        <table class="table table-hover text-right my-2">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">No</th>
+                    <th scope="col" class="text-start">Order ID</th>
+                    <th scope="col" class="text-center">Created At</th>
+                    <th scope="col" class="text-end">Total Amount</th>
+                    <th scope="col" class="text-center">Billing Status</th>
+                    <th scope="col" class="text-center">Shipping Status</th>
+                </tr>
+            </thead>
+            {% for order in user_orders %}
+            <tbody>
+                <tr>
+                    <td scope="row" class="text-center"><small>{{ forloop.counter }}</small></td>
+                    <td><small><a href="{{ order.get_absolute_url }}">{{ order.order_key|slice:10 }}</a></small></td>
+                    <td class="text-center"><small>{{ order.created_at|date:"d M Y"}}</small></td>
+                    <td class="text-end"><small>{{ order.total_paid }} VND</small></td>
+                        {% if  order.billing_status == True %}
+                        <td class=" table-primary text-center"><small> Completed </small></td>
+                        {% else %}
+                        <td class=" table-secondary text-center"><small> Not Paid </small></td>
+                        {% endif %}
+                    <td class="table-success text-center"><small>Shipped</smal></td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        
 </main>
 
 {% endblock %}

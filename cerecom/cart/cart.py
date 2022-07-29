@@ -103,6 +103,12 @@ class Cart():
         """
         return sum(item['qty'] for item in self.cart.values())
     
+    def get_total_order(self):
+        
+        order_total = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+
+        return order_total
+    
     def get_total_price(self):
         
         subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
@@ -113,7 +119,7 @@ class Cart():
             shipping = Decimal(30000.00)
             
         total = subtotal + shipping
-        return total
+        return total    
     
     def save(self):
         self.session.modified = True

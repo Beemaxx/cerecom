@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render
 
 from django.http.response import JsonResponse
 from cart.cart import Cart
-from .models import Order, OrderItems
+from .models import Order, OrderItems, OrderShipment
 
 def add(request):
     
@@ -31,6 +31,11 @@ def add(request):
             )
             
             order_id = order.pk
+            
+            shipping = OrderShipment.objects.create(
+                order_id = order_id,
+                shipping_company = "sample company 1",
+            )
             
             for item in cart:
                 OrderItems.objects.create(
@@ -56,3 +61,12 @@ def user_orders(request):
     completed_orders = Order.objects.filter(user_id=user_id)
     
     return completed_orders
+
+
+def order_detail(request, order_key):
+    
+    order_no = Order.objects.filter( order_key = order_key)
+    
+    print(order_no.values_list())
+    
+    return render(request, 'store/cart/order_detail.html', {'order_no' : order_no })

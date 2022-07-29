@@ -1,0 +1,137 @@
+{% extends "../base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Cart Summary{% endblock %}
+{% block content %}
+
+<div class="container mb-5">
+    <h3>Order Detail</h3>
+    {% for order in order_no %}
+    {% for shipping in order.order_shipping.all %}
+    <div class="d-flex my-2">
+        <div class="mr-5"> <b>Contact Person:</b> {{ order.full_name }} </div>
+        <div class="mx-5"> <b>Phone:</b> {{ order.phone }} </div>
+ 
+     </div>
+         <!-- Verify payment status --> 
+
+    <div class="d-flex my-2">
+        <div class="flex-grow-1"> <b>Order Number:</b> {{ order.order_key }} </div>
+        {% if order.billing_status == True %}
+         <div class="bg-success text-white px-2"> Order Status: Completed </div>
+         {% else %}
+         <div class="bg-secondary text-white"> Order Status: Not Completed </div>
+         {% endif %}
+     </div>
+   
+    <!-- Verify shipping status --> 
+    <div class="d-flex my-2">
+        <div class="flex-grow-1"> <b>Shipping Address:</b> {{ order.shipping_address1 }} </div>
+        {% if shipping.shipping_status == True %}
+         <div class="bg-success text-white px-2"> Shippinog Status: Completed </div>
+         {% else %}
+         <div class="bg-secondary text-white"> Shipping Status: Not Completed </div>
+         {% endif %}
+     </div>
+</div>
+
+
+
+<table class="table text-right table-hover">
+        <thead>
+          <tr>
+            <th scope="col" class="">No</th>
+            <th scope="col" class="text-start">Name</th>
+            <th scope="col" class="text-center">Image</th>
+            <th scope="col" class="text-center">Quantity</th>
+            <th scope="col" class="text-end">Price</th>
+            <th scope="col" class="text-end">Subtotal</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+          <div>
+            <tr class="cart-items align-middle" data-index="{{item.product.id}}">
+              <td scope="row" class=""> {{ forloop.counter }} </th>
+              <td>
+                {{ item.product.name }}<br>
+                <a href="{{ item.product.get_absolute_url }}">View more </a>
+
+              </td>
+              <td class="text-center">
+                <img class="img-thumbnail" src={{ item.product.image.url }} style="width:auto ; height:100px">
+              </td>
+              <td class="text-center">{{ item.quantity }}</td>
+
+              <td class="text-end">{{ item.price|floatformat:"0" }} VND</td>
+              <td class="text-end">{{ item.get_subtotal|floatformat:"0" }} VND</td>
+
+              <!-- END OF PRICE -->
+            </tr>
+          </div>
+          {% endfor %}
+
+          
+          <tr>
+          </tr>
+        </tbody>
+        <tfoot>
+          {% comment %} <tr>
+            <td colspan="6">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Promo code">
+                <button type="submit" class="btn btn-secondary">Redeem</button>
+              </div>
+            </td>
+          </tr> {% endcomment %}
+
+          <!-- Shipping Cost-->
+       
+          <tr>
+            <td colspan="5">
+              Order Total (VND)
+            </td>
+            <td class="text-end">
+                {{ order.get_order_cost|floatformat:"0" }} VND
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              Promotion (VND)
+            </td>
+            <td class="text-end table-success">
+              30,000 VND
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              Shipping (VND)
+         
+               
+           
+            </td>
+            <td class="text-end">
+              {{ shipping.shipping_cost|floatformat:"0"  }}
+            </td>
+          </tr>
+          <!-- END OF TOTAL ROW-->
+
+          <!-- Final Cost-->
+          <tr>
+            <td colspan="5">
+              <b>Final Cost (VND)</b>
+            </td>
+            <td class="text-end table-warning">
+              <strong>{{ order.total_paid }} VND</strong>
+            </td>
+          </tr>
+        </tfoot>
+        
+
+      </table>
+      {% endfor %}
+
+      {% endfor %}
+
+{% endblock %}

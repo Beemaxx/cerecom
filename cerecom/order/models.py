@@ -1,6 +1,8 @@
 from ast import Or
 from tabnanny import verbose
 from django.db import models
+from django.urls import reverse
+
 
 # Create your models here.
 
@@ -33,6 +35,16 @@ class Order(models.Model):
     def __str__(self):
         return str(self.created_at)
     
+    def get_absolute_url(self):
+        return reverse('order:order_detail', args=[self.order_key])
+    
+    @property
+    def get_order_cost(self):
+        order_cost = Decimal(self.total_paid - 30000)
+        return order_cost
+    
+    
+    
 class OrderItems(models.Model):
     
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items",)
@@ -43,6 +55,25 @@ class OrderItems(models.Model):
     def __str__(self):
         return str(self.id)
     
+    @property
+    def get_subtotal(self):
+        item_subtotal = Decimal(self.quantity * self.price)
+        return item_subtotal
+    
     class Meta:
         verbose_name = "Order Items"
         verbose_name_plural = "Order Items"
+        
+
+class OrderShipment(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_shipping", default=None)
+    shipping_company = models.CharField(max_length=200, default=None)
+    shipping_status = models.BooleanField(default=False)
+    shipping_cost = models.DecimalField(max_digits=12, decimal_places=2, default=30000)
+
+    def __str__(self):
+        return str(self.order)
+    
+    class Meta:
+        verbose_name = "Order Shipping"
+        verbose_name_plural = "Order Shipping"

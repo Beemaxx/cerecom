@@ -1,5 +1,6 @@
 from email import message
 from re import template
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from unicodedata import category
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
@@ -15,51 +16,71 @@ from django.http import response
 def all_products(request):
     
     products = Product.products.all() #changes to query only product which is active. 
+    paginator = Paginator(products, 12)
     
-    return render(request, 'store/home.html', { 'products': products })
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'store/home.html', { 'page_obj': page_obj})
 
-def new_all_products(request):
-    
-    products = Product.products.all() #changes to query only product which is active. 
-    
-    return render(request, 'store/newhome.html', { 'products': products })
 
 def product_detail(request, slug):
     
     product = get_object_or_404(Product, slug=slug, in_stock=True)
     
-    return render(request, 'store/products/detail.html', { 'product': product })
+    return render(request, 'store/products/detail_2.html', { 'product': product })
 
 
 def category_list(request, category_slug):
     
     qr_category = get_object_or_404(Product_Category, slug = category_slug)
-    qr_product = Product.objects.filter(category_id = qr_category)
+    qr_product = Product.objects.filter(category_id = qr_category)  
     
-    context = { 'category': qr_category,
-                'product': qr_product, 
-               }
+    paginator = Paginator(qr_product, 12)   
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
-    return render(request, 'store/categories/category_list.html', context )
+    return render(request, 'store/categories/category_list.html', { 'page_obj': page_obj} )
 
 
-class SearchResultView(ListView):
-    
-    model = Product
+def search_result(request):
+
+    query = request.GET.get("q")
     template_name = 'store/products/search_result.html'
-    message = "There are no items in your search."
-    
-    def get_queryset(self):
 
-        query = self.request.GET.get("q")
+    if query:
+        object_list = Product.objects.filter(Q(name__icontains=query)|Q(category_id__name__icontains=query)).order_by('desc')
+    else:
+        object_list = Product.objects.none()
+
+
+    paginator = Paginator(object_list, 12)   
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, template_name, { 'page_obj': page_obj , 'query':query } )
+
+
+# class SearchResultView(ListView):
+    
+#     model = Product
+#     template_name = 'store/products/search_result.html'
+#     paginate_by = 12
+#     context_object_name = "object_list"
+
+    
+#     def get_queryset(self):
+
+#         query = self.request.GET.get("q")
+
         
-        if query:
-            object_list = Product.objects.filter(Q(name__icontains=query)|Q(category_id__name__icontains=query)).order_by('desc')
-        else:
-            object_list = self.model.objects.none()
-        print(object_list)
+#         if query:
+#             object_list = Product.objects.filter(Q(name__icontains=query)|Q(category_id__name__icontains=query)).order_by('desc')
+#         else:
+#             object_list = self.model.objects.none()
+     
         
-        return object_list
+#         return object_list
     
 
 
