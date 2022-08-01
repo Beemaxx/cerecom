@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'import_export', #import export module 21st Jul
     'payment',
     'order',
+    'graphene_django',
  ]
 
 MIDDLEWARE = [
