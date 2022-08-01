@@ -26,7 +26,10 @@ class Cart():
             self.cart[product_id]['qty'] += qty
 
         else:
-            self.cart[product_id] = {'price': product.price, 'qty': qty }
+            
+            #generate item into cart session
+
+            self.cart[product_id] = {'price': product.price, 'qty': qty , 'promotion_price': product.get_product_promotion_price}
             
         self.save()
         
@@ -38,7 +41,7 @@ class Cart():
             self.cart[product_id]['qty'] += 1
 
         else:
-            self.cart[product_id] = {'price': product.price, 'qty': qty }
+            self.cart[product_id] = {'price': product.price, 'qty': qty, 'promotion_price': product.get_product_promotion_price}
             
         self.save()
         
@@ -53,7 +56,8 @@ class Cart():
                     
                     del self.cart[product_id]    
         else:
-            self.cart[product_id] = {'price': product.price, 'qty': qty }
+            #generate item into cart session
+            self.cart[product_id] = {'price': product.price, 'qty': qty, 'promotion_price': product.get_product_promotion_price }
             
         self.save()
     
@@ -87,13 +91,15 @@ class Cart():
         product_ids = self.cart.keys()
         products = Product.products.filter(id__in=product_ids)
         cart = self.cart.copy()
+        print(self.cart.values())
         
         for product in products:
             cart[str(product.id)]['product']= product
             
         for item in cart.values():
             item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['qty']
+            item['promotion_price'] = Decimal(item['promotion_price'])
+            item['total_price'] = item['promotion_price'] * item['qty']
             yield item
              
             
@@ -103,6 +109,7 @@ class Cart():
         """
         return sum(item['qty'] for item in self.cart.values())
     
+    
     def get_total_order(self):
         
         order_total = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
@@ -111,7 +118,7 @@ class Cart():
     
     def get_total_price(self):
         
-        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+        subtotal = sum(Decimal(item['promotion_price']) * item['qty'] for item in self.cart.values())
 
         if subtotal == 0:
             shipping = Decimal(0.00)
@@ -119,7 +126,20 @@ class Cart():
             shipping = Decimal(30000.00)
             
         total = subtotal + shipping
-        return total    
+        return total
+    
+    def get_shipping_cost(self):
+        
+        shipping_cost = 30000
+        
+        return shipping_cost
+    
+    def discount_amount(self):
+        order_total = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+        subtotal = sum(Decimal(item['promotion_price']) * item['qty'] for item in self.cart.values())
+
+        amount = order_total - subtotal
+        return amount    
     
     def save(self):
         self.session.modified = True

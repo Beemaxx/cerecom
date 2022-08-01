@@ -45,3 +45,5 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'desc': ('name',)}
 
     
+    """_summary_
+    """

@@ -6,6 +6,7 @@ from django.forms import BooleanField
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
+from graphene import Decimal
 
 sample_content = "Some quick example text to build on the card title and make up the bulk of the card's content."
 
@@ -91,4 +92,17 @@ class Product(TimeStampedModel):
             'slug' : self.slug,
         }
         return reverse( 'store:product_detail', kwargs = kwargs)
+    
+    @property
+    def get_product_promotion_price(self):
+        
+        if self.discount_id.active == True:    
+            promotion_price = self.price * (1 - self.discount_id.discount_percent)
+
+            return promotion_price
+        
+        else:
+            return self.price
+        
+
     

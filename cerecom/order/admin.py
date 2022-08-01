@@ -10,3 +10,4 @@ admin.site.register(OrderItems)
 class  UserBaseAdmin(admin.ModelAdmin):
     list_display = ['order', 'shipping_status']
     list_filter = ['shipping_status']
+    list_editable = ['shipping_status']

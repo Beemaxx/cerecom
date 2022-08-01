@@ -34,12 +34,24 @@
                     <td><small><a href="{{ order.get_absolute_url }}">{{ order.order_key|slice:10 }}</a></small></td>
                     <td class="text-center"><small>{{ order.created_at|date:"d M Y"}}</small></td>
                     <td class="text-end"><small>{{ order.total_paid }} VND</small></td>
+
+                    
+                        <!-- Billing Status-->
                         {% if  order.billing_status == True %}
                         <td class=" table-primary text-center"><small> Completed </small></td>
                         {% else %}
                         <td class=" table-secondary text-center"><small> Not Paid </small></td>
                         {% endif %}
-                    <td class="table-success text-center"><small>Shipped</smal></td>
+
+                        <!-- Shipping Status-->
+                        {% for shipping in order.order_shipping.all %}
+                       
+                        {% if  shipping.shipping_status == True %}
+                                <td class=" table-success text-center"><small> In Delivery </small></td>
+                            {% else %}
+                                <td class=" table-secondary text-center"><small> Waiting for Delivery </small></td>
+                        {% endif %}
+                        {% endfor %}
                 </tr>
             </tbody>
             {% endfor %}

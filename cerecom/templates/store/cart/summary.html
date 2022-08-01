@@ -30,7 +30,7 @@
       <!--END OF CART QUANTITY -->
 
       <!-- TABLE -->
-      <table class="table text-right">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col" class="">No</th>
@@ -55,7 +55,14 @@
               <td class="text-center">
                 <img class="img-thumbnail" src={{ item.product.image.url }} style="width:auto ; height:100px">
               </td>
-              <td>{{ item.price }} VND</td>
+
+              <td><s><small>{{ item.product.price|floatformat:"0"  }} VND</s></small>
+                <br>
+                Discounted Price: 
+                <br>
+                {{ item.product.get_product_promotion_price|floatformat:"0"  }} VND
+              </td>
+
               <td class="text-center">
                 <!-- QUANTITY BUTTON-->
 
@@ -97,11 +104,12 @@
                 </button>
               </td>
               <!-- END OF DELETE BUTTON-->
-              <!-- PRICE-->
+              <!-- total cost-->
               </td>
               <td class="text-end">
                 {{ item.total_price }} VND
               </td>
+
               <!-- END OF PRICE -->
             </tr>
 
@@ -122,41 +130,80 @@
             </td>
           </tr> {% endcomment %}
 
-          <!-- TOTAL ROW -->
+          <!-- Total Cost -->
           <tr>
             <td colspan="6">
               <b>Total (VND)</b>
             </td>
             <td class="text-end">
-              <strong>{{ cart.get_total_price }} VND</strong>
+              {{ cart.get_total_order }} VND
             </td>
           </tr>
           <!-- END OF TOTAL ROW-->
+
+
+          <!-- Total Promotion -->
+          <tr>
+            <td colspan="6">
+              <b>Promotion {{ item.product.slug  }}</b>
+              
+            </td>
+            <td class="text-end">
+             - {{ cart.discount_amount }} VND
+            </td>
+          </tr>
+          <!-- END OF Promotion-->
+
+          <!-- Total Shipping Method -->
+          <tr>
+            <td colspan="6" class="d-flex-inline">
+              <b>Shipping Method</b> 
+
+              
+            </td>
+            <td class="text-end">
+              {{ cart.get_shipping_cost }} VND
+            </td>
+          </tr>
+          <!-- END OF Shipping Method-->
+
+          <!-- Total Shipping Method -->
+          <tr>
+            <td colspan="6">
+              <b>Final Cost (VND)</b>
+            </td>
+            <td class="text-end bg-success text-white">
+              {{ cart.get_total_price }} VND
+            </td>
+          </tr>
+          <!-- END OF Shipping Method-->
         </tfoot>
 
       </table>
+      
       <!-- Checkout Button -->
-        {% with total_qty=cart|length %}
-        <div id="cart_quanty" class="d-inline-flex align-items-end">
+      {% with total_qty=cart|length %}
+      <div id="cart_quanty" class="d-flex justify-content-end">
 
-          {% if total_qty > 0 %}
-          <div clas=s"col-md-5 col-lg-4 order-md-last p-0 order-3 align-items-end">
-            <div class="gap-2">
-              <a role="button" href="{% url 'payment:home' %}" class="btn btn-success fw-bold" type="button"
-                disabled>Checkout</a>
-              <button class="btn btn-light" type="button">Save for later</button>
-            </div>
+        {% if total_qty > 0 %}
+        <div class"col-md-5 col-lg-4 order-md-last p-0 order-3">
+          <div class="gap-2 ">
+            <a role="button" href="{% url 'payment:home' %}" class="btn btn-outline-success mx-2 px-2" type="button"
+              style="width:200px">Checkout</a>
+            <button class="btn btn-light mx-2 px-2" type="button" style="width:200px">Save for later</button>
           </div>
-          {% else %}
+        </div>
+        {% else %}
 
-          <div clas=s"col-md-5 col-lg-4 order-md-last p-0 order-3">
-            <div class="gap-2">
-              There is no items in your cart.
-              Go to <a href={% url 'store:all_products' %}>homepage</a> to shop.
-            </div>
+        <div clas=s"col-md-5 col-lg-4 order-md-last p-0 order-3">
+          <div class="gap-2">
+            There is no items in your cart.
+            Go to <a href={% url 'store:all_products' %}>homepage</a> to shop.
           </div>
-          {% endif %}
+        </div>
+        {% endif %}
         {% endwith %}
+        
       </div>
 
 
