@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_^6wn+yeyc=(_cw5%nka8+b_++&9lj0p-+ka$6fa45$#6c)1sb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'localhost']
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', "192.168.1.40"]
 
 
 # Application definition
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'payment',
     'order',
     'graphene_django',
+    'graphiiql',
+    
  ]
 
 MIDDLEWARE = [
@@ -164,3 +166,10 @@ STRIPE_SECRET_KEY = 'sk_test_51JPovwI5VK2lgzs7EKjqxgX8HOXez7WuVyHtNJln6JOEjw2osd
 
 #Cart SESSION ID
 CART_SESSION_ID = "cart"
+
+
+# GRAPHENE
+
+GRAPHENE = {
+    "SCHEMA": "graphiiql.schema.schema",
+}

@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 from graphene_django.views import GraphQLView
-from store.schema import schema
 
 
 
@@ -26,5 +25,5 @@ urlpatterns = [
 
     ###GRAPHQL view
     
-    path("graphql/", GraphQLView.as_view(graphiql=True, schema=schema)),
+    # path("graphql/", GraphQLView.as_view(graphiql=True, schema=schema)),
 ]
