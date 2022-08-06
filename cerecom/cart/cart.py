@@ -8,8 +8,10 @@ class Cart():
     
     def __init__(self, request):
         
-        self. session = request.session 
+        self.session = request.session 
         cart = self.session.get(settings.CART_SESSION_ID)
+        shipping_cost = self.session.get('shipping_cost')
+        print(shipping_cost)
         
         if settings.CART_SESSION_ID not in request.session:
             cart = self.session[settings.CART_SESSION_ID] = {}
@@ -21,7 +23,6 @@ class Cart():
     def add(self, product, qty):
         
         product_id = str(product.id)
-        print(product_id)
         if product_id in self.cart:
             self.cart[product_id]['qty'] += qty
 
@@ -30,7 +31,15 @@ class Cart():
             #generate item into cart session
 
             self.cart[product_id] = {'price': product.price, 'qty': qty , 'promotion_price': product.get_product_promotion_price}
+
             
+        self.save()
+        
+    def add_shipping_cost(self, shipping_cost):
+        
+        self.cart['shipping_cost'] = shipping_cost
+
+
         self.save()
         
     def item_increase(self, product, qty):
@@ -92,6 +101,8 @@ class Cart():
         products = Product.products.filter(id__in=product_ids)
         cart = self.cart.copy()
         print(self.cart.values())
+        print(self.cart.keys())
+
         
         for product in products:
             cart[str(product.id)]['product']= product
@@ -119,20 +130,10 @@ class Cart():
     def get_total_price(self):
         
         subtotal = sum(Decimal(item['promotion_price']) * item['qty'] for item in self.cart.values())
-
-        if subtotal == 0:
-            shipping = Decimal(0.00)
-        else: 
-            shipping = Decimal(30000.00)
-            
-        total = subtotal + shipping
-        return total
+        
+        return str(subtotal)
     
-    def get_shipping_cost(self):
-        
-        shipping_cost = 30000
-        
-        return shipping_cost
+
     
     def discount_amount(self):
         order_total = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())

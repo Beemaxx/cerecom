@@ -1,12 +1,16 @@
 from cgitb import reset
 from math import prod
+from tkinter.tix import INTEGER
+from typing import final
 from urllib import response
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from graphene import Decimal
 from .cart import Cart
 from store.models import Product
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from requests import request
 # Create your views here.
 
 
@@ -16,7 +20,8 @@ def cart_summary(request):
     template_name = "store/cart/summary.html"
     
     cart = Cart(request)
-    context = { "cart_items" : cart }
+
+    context = { "cart_items" : cart}
     
     return render(request,template_name, context )
 
@@ -66,9 +71,6 @@ def cart_item_increase(request):
 
             cart.item_increase(product = product_id, qty=product_quantity)
             cartqty = cart.__len__()
-
-         
-            cartqty = cart.__len__()
             print(cartqty)    
             response = JsonResponse({'qty': cartqty})    
             
@@ -91,6 +93,7 @@ def cart_item_decrease(request):
         response = JsonResponse({'qty': cartqty})
     return response
 
+@login_required
 def cart_update(request):
     cart = Cart(request)
     
@@ -106,3 +109,45 @@ def cart_update(request):
         response = JsonResponse({'qty': cartqty})
         
     return response
+
+@login_required
+def add_shipping_cost(request):
+    cart = Cart(request)
+    
+    if request.POST.get('action') == 'add_shipping_cost':
+    
+        shipping_cost = request.POST.get('shipping_cost')
+        request.session['shipping_cost'] = shipping_cost
+        
+        x = request.session['shipping_cost']
+        print(type(x))
+        
+        print('shipping cost ' + shipping_cost)
+        final_cost = cart.get_total_price()
+
+        print(type(final_cost))
+
+        
+        print('final cost ' + final_cost)
+        
+        cost_include_shipping = int(final_cost) + int(x)
+     
+        
+        response = JsonResponse(
+            {'final_cost': cost_include_shipping},
+            )
+
+    # cart = Cart(request)
+    # print(request.session.keys())
+        
+    # if request.POST.get('action') == 'add_shipping_cost':
+        
+    #     shipping_cost = int(request.POST.get('shipping_cost'))
+    #     print(shipping_cost)
+    #     final_cost = cart.get_total_price(shipping_cost=shipping_cost )
+    #     print(final_cost)
+    #     response = HttpResponse({'final_cost': final_cost})
+    # else: 
+    #     response = None
+        
+    return response 

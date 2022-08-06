@@ -47,18 +47,21 @@
           <div>
             <tr class="cart-items align-middle" data-index="{{item.product.id}}">
               <th scope="row" class=""> {{ forloop.counter }} </th>
+              <!-- Item Url -->
+
               <td>
                 {{ item.product.name }}<br>
                 <a href="{{ item.product.get_absolute_url }}">View more </a>
 
               </td>
+              <!-- Item Image -->
               <td class="text-center">
                 <img class="img-thumbnail" src={{ item.product.image.url }} style="width:auto ; height:100px">
               </td>
-
+              <!-- Item Unit Price  & Promotion price -->
               <td><s><small>{{ item.product.price|floatformat:"0"  }} VND</s></small>
                 <br>
-                Discounted Price: 
+                Discounted Price:
                 <br>
                 {{ item.product.get_product_promotion_price|floatformat:"0"  }} VND
               </td>
@@ -146,41 +149,57 @@
           <tr>
             <td colspan="6">
               <b>Promotion {{ item.product.slug  }}</b>
-              
+
             </td>
             <td class="text-end">
-             - {{ cart.discount_amount }} VND
+              - {{ cart.discount_amount }} VND
             </td>
           </tr>
           <!-- END OF Promotion-->
 
           <!-- Total Shipping Method -->
           <tr>
-            <td colspan="6" class="d-flex-inline">
-              <b>Shipping Method</b> 
-
-              
+            <td colspan="6">
+              <b>Order Cost (VND)</b>
             </td>
             <td class="text-end">
-              {{ cart.get_shipping_cost }} VND
+              {{ cart.get_total_price | intcomma }} VND
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6" class="d-flex-inline">
+              <b>Shipping Method</b>
+
+                   
+                  <select id="shipping_cost" class="mx-3 " onChange="update_shipping_cost()">
+                    <option value="0">Pick up at store</option>
+                    <option value="20000">Inside Ecopark</option>
+                    <option value="50000">Outside Ecopark</option>
+                  </select>
+      
+            </td>
+            <td class="text-end">
+              <text id='shipping_actual_cost' class="text-end border border-0" disabled> VND</text>
             </td>
           </tr>
           <!-- END OF Shipping Method-->
 
-          <!-- Total Shipping Method -->
+          <!-- Total Final Cost -->
           <tr>
             <td colspan="6">
               <b>Final Cost (VND)</b>
             </td>
-            <td class="text-end bg-success text-white">
-              {{ cart.get_total_price }} VND
+            {% comment %} <td class="text-end bg-success text-white" id="final_cost">
+               VND
+            </td> {% endcomment %}
+            <td id="final_cost" class="text-end bg-success border border-0 text-white" disabled> 
             </td>
           </tr>
-          <!-- END OF Shipping Method-->
+          <!-- END OF Final Cost-->
         </tfoot>
 
       </table>
-      
+
       <!-- Checkout Button -->
       {% with total_qty=cart|length %}
       <div id="cart_quanty" class="d-flex justify-content-end">
@@ -293,6 +312,42 @@
   </div>
 </div>
 
+<!-- Update shipping cost based on option-->
+<script type="text/javascript">
+  function update_shipping_cost(){
+    var shipping_option = document.getElementById('shipping_cost');
+    var shipping_cost = shipping_option.options[shipping_option.selectedIndex];
+    var y = parseInt(shipping_cost.value);
+    console.log(y.toLocaleString())
+    document.getElementById('shipping_actual_cost').innerHTML = y.toLocaleString() + ' VND';
+    
+  }
+ update_shipping_cost();
+
+</script> 
+
+
+<script>
+  $('#shipping_cost').on('change', function (e) {
+    e.preventDefault();
+    var shipping_cost = $('#shipping_cost').find(":selected").val();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "cart:add_shipping_cost" %}',
+      data: {
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        shipping_cost: shipping_cost,
+        action: 'add_shipping_cost',
+      },
+
+      success: function (json) {
+      
+      document.getElementById("final_cost").innerHTML = json.final_cost.toLocaleString() + ' VND';
+      },
+      error: function (xhr, errmsg, err) {}
+    })
+  })
+</script>
 
 
 {% endblock %}

@@ -12,5 +12,7 @@ urlpatterns = [
     path('delete/', views.cart_delete, name = 'cart_delete'),
     path('item_increase/', views.cart_item_increase, name = 'item_increase'),
     path('item_decrease/', views.cart_item_decrease, name = 'item_decrease'),
+    path('add_shipping_cost/', views.add_shipping_cost, name = 'add_shipping_cost'),
+
 
 ]

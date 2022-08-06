@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'order',
     'graphene_django',
     'graphiiql',
+    "view_breadcrumbs",
     
  ]
 
