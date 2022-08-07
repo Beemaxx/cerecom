@@ -16,7 +16,11 @@ def add(request):
         
         user_id = request.user.id
         order_key = request.POST.get('order_key')
-        cart_total = cart.get_total_price()
+        shipping_cost = request.session['shipping_cost']
+        cart_total = cart.get_price_with_shipping()
+        no_discount_cost = cart.get_total_order()
+
+
         
         if Order.objects.filter(order_key=order_key).exists():
             pass
@@ -28,13 +32,15 @@ def add(request):
                 shipping_address2 = 'add2',
                 total_paid = cart_total,
                 order_key = order_key,
+                cost_without_promotion = no_discount_cost,
+                
             )
             
             order_id = order.pk
-            
             shipping = OrderShipment.objects.create(
                 order_id = order_id,
                 shipping_company = "sample company 1",
+                shipping_cost = shipping_cost,
             )
             
             for item in cart:

@@ -144,3 +144,13 @@ class Cart():
     
     def save(self):
         self.session.modified = True
+        
+    def get_price_with_shipping(self):
+        
+        shipping_cost = self.session['shipping_cost']
+        
+        subtotal = sum(Decimal(item['promotion_price']) * item['qty'] for item in self.cart.values())
+        
+        final = int(shipping_cost) + int(subtotal)
+        
+        return final

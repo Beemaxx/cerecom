@@ -93,7 +93,7 @@
               Order Total (VND)
             </td>
             <td class="text-end">
-                {{ order.get_order_cost|floatformat:"0" }} VND
+                {{ order.cost_without_promotion|floatformat:"0" }} VND
             </td>
           </tr>
           <tr>
@@ -101,8 +101,7 @@
               Promotion (VND)
             </td>
             <td class="text-end table-success">
-              30,000 VND
-            </td>
+              {{ order.get_promotion_cost|floatformat:"0" }} VND            </td>
           </tr>
           <tr>
             <td colspan="5">

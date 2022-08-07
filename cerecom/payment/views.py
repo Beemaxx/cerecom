@@ -17,18 +17,15 @@ endpoint_secret = 'whsec_63ce653a79e541729a93ee764155dca0dc98b214446756f291b43c0
 def Payment_Cart(request):
     
     template_name = 'store/payment/home.html'
-    x = request.session['shipping_cost']
     cart = Cart(request) #get data from session
-    cart_total = cart.get_total_price()
+    cart_total = cart.get_price_with_shipping()
      
-    cost_include_shipping = int(cart_total) + int(x)
-    cost_include_shipping = str(cost_include_shipping)
-    cost_include_shipping = cost_include_shipping.replace('.', '')
-    cost_include_shipping = int(cost_include_shipping)
+    cart_total = str(cart_total)
+    cart_total = cart_total.replace('.', '')
     
     stripe.api_key 
     intent = stripe.PaymentIntent.create(
-        amount = cost_include_shipping,
+        amount = cart_total,
         currency = 'vnd',
         metadata = {'userid': request.user.id }
     )

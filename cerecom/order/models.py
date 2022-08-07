@@ -27,6 +27,7 @@ class Order(models.Model):
     total_paid = models.DecimalField(max_digits=12, decimal_places=0)
     order_key = models.CharField(max_length=200)
     billing_status = models.BooleanField(default=False)
+    cost_without_promotion = models.DecimalField(max_digits=12,decimal_places=0, default = 0)
     
     class Meta:
         ordering = ('-created_at', )
@@ -40,9 +41,14 @@ class Order(models.Model):
         return reverse('order:order_detail', args=[self.order_key])
     
     @property
-    def get_order_cost(self):
-        order_cost = Decimal(self.total_paid - 30000)
-        return order_cost
+    def get_promotion_cost(self):
+        
+        shipping_cost = OrderShipment.objects.get(order_id = self.pk).shipping_cost
+        print(shipping_cost)
+        promotion_cost = Decimal(self.cost_without_promotion - self.total_paid - shipping_cost)
+
+
+        return promotion_cost
     
     
     
@@ -70,7 +76,7 @@ class OrderShipment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_shipping", default=None)
     shipping_company = models.CharField(max_length=200, default=None)
     shipping_status = models.BooleanField(default=False)
-    shipping_cost = models.DecimalField(max_digits=12, decimal_places=2, default=30000)
+    shipping_cost = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     def __str__(self):
         return str(self.order)
