@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'graphiiql',
     "view_breadcrumbs",
+    'user_management', #Aug082022
     
  ]
 

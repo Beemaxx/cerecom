@@ -23,16 +23,16 @@ def account_registration(request):
         return redirect('account:dashboard')
     
     if request.method == "POST" : 
-        print(request.POST['user_name'])
-        print(request.POST['email'])
-        print(request.POST['password'])
+  
 
         registerForm = RegistrationForm(request.POST)
+        print(registerForm['user_name'])
         if registerForm.is_valid():
             user = registerForm.save(commit=False)
             user.email = registerForm.cleaned_data['email']
             user.set_password(registerForm.cleaned_data['password'])
             user.is_active = False
+            user.username = registerForm['user_name']
             user.save()
 
             #Setup email
@@ -47,7 +47,9 @@ def account_registration(request):
             })
             
             user.email_user(subject = subject, message = message)
-            return HttpResponse('Registration was successful and an activation email was sent.')
+            message = 'Registration was successful and an activation email was sent.'
+            context = { 'message' : message }
+            return render(request, 'store/account/registration/notification_sent.html', context)
             
     else:
         registerForm = RegistrationForm()

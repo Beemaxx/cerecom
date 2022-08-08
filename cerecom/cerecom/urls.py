@@ -19,12 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
+from user_management.admin import management_dashboard
 
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('management_dashboard/', management_dashboard.urls ), #management dash board
     path('', include('store.urls' , namespace= 'store')),
     path('cart/', include('cart.urls' , namespace= 'cart')),
     path('account/', include('account.urls' , namespace= 'account')),
