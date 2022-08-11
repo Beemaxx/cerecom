@@ -27,6 +27,9 @@ from user_management.admin import management_dashboard
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('management_dashboard/', management_dashboard.urls ), #management dash board
+    
+    
+    
     path('', include('store.urls' , namespace= 'store')),
     path('cart/', include('cart.urls' , namespace= 'cart')),
     path('account/', include('account.urls' , namespace= 'account')),

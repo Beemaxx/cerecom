@@ -1,7 +1,8 @@
-from unicodedata import name
+from unicodedata import category, name
 import graphene
 
 from graphene_django import DjangoObjectType
+from pkg_resources import require
 from store.models import Product, Product_Category
 
 class ProductType(DjangoObjectType):
@@ -12,6 +13,7 @@ class ProductType(DjangoObjectType):
                   "price",
                   "in_stock",
                   'category_id',
+                  "id",
                   )
         
 
@@ -62,5 +64,72 @@ class Query(graphene.ObjectType):
             else:
                 return None
 
+#Create a new Category using Mutation
 
-schema = graphene.Schema(query=Query)
+class CategoryMutation(graphene.Mutation):
+    
+    class Arguments:
+        name = graphene.String(required=True)
+        # price = graphene.Decimal(required=True)
+        
+    category = graphene.Field(CategoryType)
+    
+    @classmethod
+    def mutate(cls, root, info, name):
+        category = Product_Category(name=name)
+        category.save()
+        
+        return CategoryMutation(category = category )
+    
+
+
+#Update Product Name using mutation
+class ProductMutation(graphene.Mutation):
+    
+    class Arguments:
+        id = graphene.ID()
+        name = graphene.String(required = True)
+        
+    product = graphene.Field(ProductType)
+    
+    @classmethod
+    def mutate(cls, root, info, name, id):
+        product = Product.objects.get(id = id)
+        product.name = name 
+        product.save()
+        
+        return ProductMutation(product = product)
+
+
+#delete Product using mutation
+class ProductDelete(graphene.Mutation):
+    
+    class Arguments:
+        id = graphene.ID()
+        
+    product = graphene.Field(ProductType)
+    
+    @classmethod
+    def mutate(cls, root, info, id):
+        product = Product.objects.get(id = id)
+        product.delete()
+        
+        return
+
+
+class Mutation(graphene.ObjectType):
+    
+    update_category = CategoryMutation.Field()
+    update_product = ProductMutation.Field()
+    delete_product = ProductDelete.Field()
+
+   
+
+
+
+
+
+
+
+
+schema = graphene.Schema(query=Query, mutation = Mutation)
